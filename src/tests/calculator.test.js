@@ -49,11 +49,11 @@ describe('Calculator CLI', () => {
     });
 
     test('Exponentiation: 2 ^ 4 = 16', () => {
-        expect(runCalc('pow', 2, 4)).toBe('2 ^ 4 = 16');
+        expect(runCalc('power', 2, 4)).toBe('2 ^ 4 = 16');
     });
 
     test('Exponentiation: 5 ^ 0 = 1', () => {
-        expect(runCalc('pow', 5, 0)).toBe('5 ^ 0 = 1');
+        expect(runCalc('power', 5, 0)).toBe('5 ^ 0 = 1');
     });
 
     test('Square root: sqrt(9) = 3', () => {

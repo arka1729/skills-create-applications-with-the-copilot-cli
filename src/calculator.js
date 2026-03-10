@@ -6,11 +6,11 @@
 const [,, operation, ...args] = process.argv;
 
 function printUsage() {
-    console.log('Usage: calculator <add|sub|mul|div|mod|pow|sqrt> <num1> <num2>');
+    console.log('Usage: calculator <add|sub|mul|div|mod|power|sqrt> <num1> <num2>');
     console.log('Examples:');
     console.log('  calculator add 2 3');
     console.log('  calculator mod 10 3');
-    console.log('  calculator pow 2 4');
+    console.log('  calculator power 2 4');
     console.log('  calculator sqrt 9');
 }
 
@@ -63,7 +63,7 @@ switch (operation) {
         }
         console.log(`${num1} % ${num2} = ${num1 % num2}`);
         break;
-    case 'pow':
+    case 'power':
         // Exponentiation (power)
         console.log(`${num1} ^ ${num2} = ${Math.pow(num1, num2)}`);
         break;
