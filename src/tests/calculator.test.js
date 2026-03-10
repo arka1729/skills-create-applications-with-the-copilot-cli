@@ -34,12 +34,54 @@ describe('Calculator CLI', () => {
         }
     });
 
-    test('Invalid operation', () => {
+    // New operation tests
+    test('Modulo: 10 % 3 = 1', () => {
+        expect(runCalc('mod', 10, 3)).toBe('10 % 3 = 1');
+    });
+
+    test('Modulo by zero', () => {
         try {
-            runCalc('mod', 7, 3);
+            runCalc('mod', 10, 0);
         } catch (e) {
             expect(e.stdout).toBeUndefined();
-            expect(e.stderr).toContain('Usage: calculator <add|sub|mul|div> <num1> <num2>');
+            expect(e.stderr).toContain('Error: Modulo by zero.');
+        }
+    });
+
+    test('Exponentiation: 2 ^ 4 = 16', () => {
+        expect(runCalc('pow', 2, 4)).toBe('2 ^ 4 = 16');
+    });
+
+    test('Exponentiation: 5 ^ 0 = 1', () => {
+        expect(runCalc('pow', 5, 0)).toBe('5 ^ 0 = 1');
+    });
+
+    test('Square root: sqrt(9) = 3', () => {
+        const result = runCalc('sqrt', 9);
+        expect(result).toBe('sqrt(9) = 3');
+    });
+
+    test('Square root: sqrt(2) ≈ 1.414...', () => {
+        const result = runCalc('sqrt', 2);
+        expect(result).toBe('sqrt(2) = ' + Math.sqrt(2));
+    });
+
+    test('Square root of negative number', () => {
+        try {
+            runCalc('sqrt', -4);
+        } catch (e) {
+            expect(e.stdout).toBeUndefined();
+            expect(e.stderr).toContain('Error: Cannot take square root of a negative number.');
+        }
+    });
+
+    // Existing error tests
+    test('Invalid operation', () => {
+        try {
+            runCalc('foo', 7, 3);
+        } catch (e) {
+            expect(e.stdout).toBeUndefined();
+            expect(e.stderr).toContain('Usage: calculator <add|sub|mul|div|mod|pow|sqrt> <num1> <num2>');
         }
     });
 

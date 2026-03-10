@@ -6,21 +6,32 @@
 const [,, operation, ...args] = process.argv;
 
 function printUsage() {
-    console.log('Usage: calculator <add|sub|mul|div> <num1> <num2>');
-    console.log('Example: calculator add 2 3');
+    console.log('Usage: calculator <add|sub|mul|div|mod|pow|sqrt> <num1> <num2>');
+    console.log('Examples:');
+    console.log('  calculator add 2 3');
+    console.log('  calculator mod 10 3');
+    console.log('  calculator pow 2 4');
+    console.log('  calculator sqrt 9');
 }
 
-if (!operation || args.length !== 2) {
+if (!operation || (operation !== 'sqrt' && args.length !== 2) || (operation === 'sqrt' && args.length !== 1)) {
     printUsage();
     process.exit(1);
 }
 
 const num1 = parseFloat(args[0]);
-const num2 = parseFloat(args[1]);
+const num2 = args.length > 1 ? parseFloat(args[1]) : undefined;
 
-if (isNaN(num1) || isNaN(num2)) {
-    console.error('Both arguments must be valid numbers.');
-    process.exit(1);
+if (operation === 'sqrt') {
+    if (isNaN(num1)) {
+        console.error('Argument must be a valid number.');
+        process.exit(1);
+    }
+} else {
+    if (isNaN(num1) || isNaN(num2)) {
+        console.error('Both arguments must be valid numbers.');
+        process.exit(1);
+    }
 }
 
 switch (operation) {
@@ -43,6 +54,26 @@ switch (operation) {
             process.exit(1);
         }
         console.log(`${num1} / ${num2} = ${num1 / num2}`);
+        break;
+    case 'mod':
+        // Modulo
+        if (num2 === 0) {
+            console.error('Error: Modulo by zero.');
+            process.exit(1);
+        }
+        console.log(`${num1} % ${num2} = ${num1 % num2}`);
+        break;
+    case 'pow':
+        // Exponentiation (power)
+        console.log(`${num1} ^ ${num2} = ${Math.pow(num1, num2)}`);
+        break;
+    case 'sqrt':
+        // Square Root
+        if (num1 < 0) {
+            console.error('Error: Cannot take square root of a negative number.');
+            process.exit(1);
+        }
+        console.log(`sqrt(${num1}) = ${Math.sqrt(num1)}`);
         break;
     default:
         printUsage();
